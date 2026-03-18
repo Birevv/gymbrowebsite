@@ -4,53 +4,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login — GymBro</title>
+    <title>Login GymBro</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-200 font-sans">
+<body class="min-h-screen flex flex-col items-center justify-center bg-[#17110e] font-sans antialiased text-white">
 
-    <div class="w-full max-w-md bg-slate-800/80 backdrop-blur-xl border border-slate-600/30 rounded-2xl p-10 shadow-2xl">
-        <h1 class="text-3xl font-extrabold text-center mb-1">🏋️ Gym<span class="text-blue-500">Bro</span></h1>
-        <p class="text-center text-slate-400 text-sm mb-8">Masuk ke akun kamu</p>
+    <div class="w-full max-w-[380px] px-6">
+        
+        <!-- Logo md/lg sizes -> smaller sizes to match image -->
+        <div class="flex justify-center items-center gap-3 mb-10">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2L22 12L12 22L2 12L12 2Z" fill="#ed8b32"/>
+                <path d="M4 12L12 4V12H4Z" fill="#17110e"/>
+                <path d="M4.5 12L12 4.5V10H6.5L4.5 12Z" fill="#cc7121"/>
+            </svg>
+            <span class="text-2xl font-black tracking-wider text-[#ed8b32] uppercase padding-left-2">GYMBRO</span>
+        </div>
+
+        <!-- Heading -->
+        <div class="text-center mb-10 w-full" style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+            <h1 class="text-3xl font-bold text-white mb-2" style="text-align: center;">Welcome Back</h1>
+            <p class="text-gray-400 text-sm" style="text-align: center;">Ready to crush your goals?</p>
+        </div>
 
         <form method="POST" action="{{ route('login') }}">
             @csrf
 
-            {{-- Email --}}
+            <!-- Username -->
             <div class="mb-5">
-                <label for="email" class="block text-sm font-semibold text-slate-300 mb-1.5">Email</label>
-                <input type="email" id="email" name="email" value="{{ old('email') }}"
-                       placeholder="contoh@email.com" required autofocus
-                       class="w-full px-4 py-3 bg-slate-900/60 border border-slate-600/40 rounded-xl text-slate-100 placeholder-slate-500 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20">
-                @error('email') <p class="text-red-400 text-xs mt-1">{{ $message }}</p> @enderror
+                <label class="block text-xs font-semibold text-gray-300 mb-2 ml-1">
+                    Username
+                </label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <!-- User icon -->
+                        <svg class="w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <!-- Note: input name is "email" for laravel default, but style is for username -->
+                    <input type="text" name="email" value="{{ old('email') }}"
+                        placeholder="Enter your username" required autofocus
+                        class="w-full pl-11 pr-4 py-3.5 bg-[#110c0a] border border-[#2a211c] rounded-[24px] text-white placeholder-gray-600 text-[13px] focus:outline-none focus:border-[#ed8b32] focus:ring-1 focus:ring-[#ed8b32] transition-colors shadow-inner">
+                </div>
+                @error('email')
+                    <p class="text-red-500 text-xs mt-1 ml-2">{{ $message }}</p>
+                @enderror
             </div>
 
-            {{-- Password --}}
-            <div class="mb-5">
-                <label for="password" class="block text-sm font-semibold text-slate-300 mb-1.5">Password</label>
-                <input type="password" id="password" name="password"
-                       placeholder="Masukkan password" required
-                       class="w-full px-4 py-3 bg-slate-900/60 border border-slate-600/40 rounded-xl text-slate-100 placeholder-slate-500 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20">
-                @error('password') <p class="text-red-400 text-xs mt-1">{{ $message }}</p> @enderror
+            <!-- Password -->
+            <div class="mb-8">
+                <div class="flex justify-between items-center mb-2 px-1">
+                    <label class="block text-xs font-semibold text-gray-300">
+                        Password
+                    </label>
+                    @if (Route::has('password.request'))
+                        <a href="{{ route('password.request') }}" class="text-[11px] font-semibold text-[#ed8b32] hover:text-[#d97706] transition-colors">
+                            Forgot password?
+                        </a>
+                    @endif
+                </div>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <!-- Lock icon -->
+                        <svg class="w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <input type="password" name="password"
+                        placeholder="Enter your password" required
+                        class="w-full pl-11 pr-4 py-3.5 bg-[#110c0a] border border-[#2a211c] rounded-[24px] text-white placeholder-gray-600 text-[13px] focus:outline-none focus:border-[#ed8b32] focus:ring-1 focus:ring-[#ed8b32] transition-colors shadow-inner">
+                </div>
+                @error('password')
+                    <p class="text-red-500 text-xs mt-1 ml-2">{{ $message }}</p>
+                @enderror
             </div>
 
-            {{-- Remember Me --}}
-            <div class="flex items-center gap-2 mb-5">
-                <input type="checkbox" id="remember" name="remember"
-                       class="w-4 h-4 accent-blue-500 rounded">
-                <label for="remember" class="text-sm text-slate-400 cursor-pointer">Ingat saya</label>
-            </div>
-
+            <!-- Button -->
             <button type="submit"
-                    class="w-full py-3.5 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold rounded-xl cursor-pointer transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-blue-500/30 active:scale-[0.98]">
-                Login 💪
+                class="w-full py-3.5 bg-[#eb8c34] text-white font-bold text-[15px] rounded-full transition-all hover:bg-[#d97706] shadow-[0_0px_25px_rgba(235,140,52,0.4)] hover:shadow-[0_0px_35px_rgba(235,140,52,0.5)]">
+                Login
             </button>
+
         </form>
 
-        <p class="text-center mt-6 text-sm text-slate-400">
-            Belum punya akun? <a href="{{ route('register') }}" class="text-blue-500 font-semibold hover:underline">Daftar gratis</a>
+        <!-- Footer -->
+        <p class="text-center mt-12 text-xs font-medium text-gray-400">
+            New to the grind? 
+            <a href="{{ route('register') }}" class="text-[#ed8b32] font-semibold hover:text-[#d97706] transition-colors ml-1">
+                Start your journey
+            </a>
         </p>
+
     </div>
 
 </body>
